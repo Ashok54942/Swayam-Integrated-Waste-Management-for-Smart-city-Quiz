@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISWM 2025 - Weekly Quiz Assessment</title>
+    <style>
+        :root {
+            --color-primary: #2196F3;
+            --color-success: #4CAF50;
+            --color-error: #f44336;
+            --color-bg: #f5f7fa;
+            --color-card: #ffffff;
+            --color-text: #2c3e50;
+            --color-text-secondary: #546e7a;
+            --color-border: #e0e0e0;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--color-text);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--color-card);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--color-primary);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        select {
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: var(--color-primary);
+            background: rgba(33, 150, 243, 0.05);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .option label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .scorecard {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .scorecard.active {
+            display: block;
+        }
+
+        .score-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .score-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-border);
+            font-size: 15px;
+        }
+
+        .score-row:last-child {
+            border-bottom: none;
+        }
+
+        .score-row .label {
+            font-weight: 600;
+            color: var(--color-text-secondary);
+        }
+
+        .score-row .value {
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .grade-excellent {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .grade-good {
+            background: #2196F3;
+            color: white;
+        }
+
+        .grade-average {
+            background: #FF9800;
+            color: white;
+        }
+
+        .grade-poor {
+            background: #f44336;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 ISWM 2025 Quiz Assessment</h1>
+            <p>Integrated Waste Management for a Smart City - IIT Kharagpur</p>
+        </div>
+
+        <div class="content">
+            <div id="quizForm">
+                <div class="form-section">
+                    <h2 class="section-title">📋 Student Information</h2>
+                    <div class="form-group">
+                        <label for="studentName">Full Name *</label>
+                        <input type="text" id="studentName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email Address *</label>
+                        <input type="email" id="studentEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="weekSelect">Select Week *</label>
+                        <select id="weekSelect" required>
+                            <option value="">-- Choose a week --</option>
+                            <option value="1">Week 1</option>
+                            <option value="2">Week 2</option>
+                            <option value="3">Week 3</option>
+                            <option value="4">Week 4</option>
+                            <option value="5">Week 5</option>
+                            <option value="6">Week 6</option>
+                            <option value="7">Week 7</option>
+                            <option value="8">Week 8</option>
+                            <option value="9">Week 9</option>
+                            <option value="10">Week 10</option>
+                            <option value="11">Week 11</option>
+                            <option value="12">Week 12</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section" id="questionsSection" style="display:none;">
+                    <h2 class="section-title">❓ Quiz Questions</h2>
+                    <div id="questionsContainer"></div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                </div>
+            </div>
+
+            <div id="scorecard" class="scorecard">
+                <div class="score-header">
+                    <h2 style="color: var(--color-primary); margin-bottom: 20px;">🏆 Your Results</h2>
+                    <div class="score-circle">
+                        <span id="scorePercentage">0%</span>
+                    </div>
+                    <div id="gradeDisplay" style="margin-top: 15px;"></div>
+                </div>
+
+                <div class="score-details">
+                    <div class="score-row">
+                        <span class="label">Student Name:</span>
+                        <span class="value" id="displayName">-</span>
+                    </div>
+                    <div class="score-row">
+                        <span class="label">Week:</span>
+                        <span class="value" id="displayWeek">-</span>
+                    </div>
+                    <div class="score-row">
+                        <span class="label">Total Questions:</span>
+                        <span class="value" id="totalQuestions">10</span>
+                    </div>
+                    <div class="score-row">
+                        <span class="label">Correct Answers:</span>
+                        <span class="value" id="correctAnswers" style="color: #4CAF50;">0</span>
+                    </div>
+                    <div class="score-row">
+                        <span class="label">Wrong Answers:</span>
+                        <span class="value" id="wrongAnswers" style="color: #f44336;">0</span>
+                    </div>
+                    <div class="score-row">
+                        <span class="label">Score:</span>
+                        <span class="value" id="displayScore">0/20</span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-primary" onclick="takeAnotherQuiz()">Take Another Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = {
+            1: [
+                {q: "Which of the following is NOT true for mismanaged solid waste?", options: ["The Black Death pandemic in the 14th century has been linked to inadequate waste disposal practices", "It leads to environmental pollution, public health risks, and increased greenhouse gas emissions", "It reduces the need for waste management policies as communities adapt to improper disposal", "Poorly managed sites can become Superfund sites"], ans: "C"},
+                {q: "What is the main objective of integrated waste management?", options: ["To promote open dumping", "To manage waste in an environmentally sound, economically feasible and socially acceptable manner", "To increase landfill size", "To maximize waste generation"], ans: "B"},
+                {q: "Which of the following statement is true for Municipal Solid Waste (MSW) management?", options: ["Meat, bones, and weed seeds should not be avoided in compost piles", "All recycled materials have quality similar to virgin materials and have stable global markets", "Durable product design is a key strategy in source reduction", "Electricity can not be recovered from MSW"], ans: "C"},
+                {q: "Refuse Derived Fuel (RDF) primarily involves:", options: ["Burning unsegregated waste", "Burying waste", "Shredding and processing waste for use as fuel", "Freezing waste for reuse"], ans: "C"},
+                {q: "What is the primary purpose of daily cover in landfills?", options: ["To increase waste volume", "To control pests, odors, and litter", "To enhance leachate formation", "To replace liner systems"], ans: "B"},
+                {q: "Which materials are used in a typical composite liner system?", options: ["Compacted clay + HDPE geomembrane", "Concrete + gravel", "Sand + gravel", "Geotextile + wood chips"], ans: "A"},
+                {q: "A major challenge in waste-to-energy projects is:", options: ["Low energy recovery", "Low cost", "Public concerns about air emissions", "Minimal land requirement"], ans: "C"},
+                {q: "How is landfill gas typically collected?", options: ["Vertical extraction wells", "Open flaring pits", "Leachate recirculation", "Daily cover compaction"], ans: "A"},
+                {q: "Which of the following is NOT true about landfill liner systems?", options: ["Double liners include low permeability barriers and leak detection system", "The primary role of geotextiles is to separate and filter fine soil particles from drainage layers", "Geonets provide high transmissivity for lateral leachate drainage", "Geonets replace the need for geomembranes"], ans: "D"},
+                {q: "Which regulatory factor restricts landfill location near airports or wetlands?", options: ["Socio-economic impact", "Population density", "Environmental safety", "Operational cost"], ans: "C"}
+            ],
+            2: [
+                {q: "Which of the following phases of landfill stabilization follows the Acid Forming Phase?", options: ["Preliminary Aerobic Phase followed by Methane Forming Phase", "Methane Forming Phase followed by Final Aerobic Phase", "Final Aerobic Phase followed by Methane Forming Phase", "Preliminary Aerobic Phase followed by Final Aerobic Phase"], ans: "B"},
+                {q: "What is the major driver for gas movement from within the landfill to the extraction system?", options: ["Rainfall", "Microbial activity", "Pressure gradient", "Wind speed"], ans: "C"},
+                {q: "Which of the following is true for landfill gas?", options: ["C6H10O5+H2O→3CH4+3CO2, this reaction occurs only in the presence of sunlight", "Vertical wells are installed before waste is placed in the landfill", "It may contain toxic compounds like hydrogen sulfide and Non methane organic compounds", "Condensate from gas is a valuable fuel source"], ans: "C"},
+                {q: "Which of the following best describes an 'acutely hazardous waste'?", options: ["Waste that is harmful only in large quantities", "Waste that is fatal to humans or animals even in low doses", "Waste that decomposes quickly in landfills", "Waste that is exclusively liquid"], ans: "B"},
+                {q: "Which of the following wastes would likely carry the hazard code 'C'?", options: ["A spent acid with a pH of 2.0", "A flammable solvent", "A waste that explodes when heated", "A lead-contaminated sludge"], ans: "A"},
+                {q: "In proximate analysis, the fixed carbon is determined by:", options: ["Direct chemical analysis", "Leaching the sample", "Drying the sample at high temperature", "Subtracting the sum of moisture, volatile matter, and ash from 100%"], ans: "D"},
+                {q: "A waste audit reveals a component composition of 50% paper (MC=6%), 30% food waste (MC=70%), and 20% metals (MC=2%). What is the moisture content (MC) of the mixed waste (wet basis)?", options: ["24.4%", "28.4%", "32.1%", "35.8%"], ans: "A"},
+                {q: "A waste sample has a total mass of 200 kg and total volume of 0.5 m³. If its moisture content is 25% (wet basis), what is its dry bulk density?", options: ["250 kg/m³", "300 kg/m³", "350 kg/m³", "400 kg/m³"], ans: "B"},
+                {q: "Why is lignin content critical in biodegradability studies?", options: ["It increases methane production", "It is a recalcitrant polymer that slows decomposition", "It enhances waste density", "It neutralizes leachate pH"], ans: "B"},
+                {q: "Which of the following is true about waste sampling and sample preparation for laboratory analysis?", options: ["In a representative waste sampling, a single grab sample is sufficient for accurate characterization", "Quatering method is not applicable for MSW", "Size reduction to <1 cm is required for TCLP (Toxicity Characteristic Leaching Procedure)", "Drying samples at 100°C is ideal for volatile organic compounds"], ans: "C"}
+            ],
+            3: [
+                {q: "In the Dulong equation, how is water content treated?", options: ["It is included as part of hydrogen and oxygen", "It is factored separately and not as part of H and O", "It is ignored completely", "It is only considered for liquid waste"], ans: "B"},
+                {q: "The fixed carbon content of waste refers to:", options: ["Moisture content of organic material", "Carbon remaining after volatile matter is driven off", "Inorganic portion of the waste", "Heat lost during combustion"], ans: "B"},
+                {q: "Which of the following is TRUE about concentration measurements?", options: ["mg/L and mg/kg are always equivalent", "1% concentration equals 100 ppm", "1 ppb = 0.001 mg/kg", "mg/kg and ppm are not interchangeable for solid waste"], ans: "C"},
+                {q: "When calculating Upper Confidence Limit (UCL), the t-statistic is dependent on:", options: ["Concentration value", "Mean value", "Sample size and confidence level", "Standard deviation only"], ans: "C"},
+                {q: "Which of the following is TRUE about analytical instruments?", options: ["GC-MS uses liquid mobile phase", "HPLC is the best and most common method for heavy metal analysis", "ICP-AES analyzes elemental composition", "AAS directly measures organic compounds"], ans: "C"},
+                {q: "What does it imply if the mean is not greater than both standard deviation and variance in a dataset?", options: ["The data is uniformly distributed", "The dataset is normally distributed", "The data follows a Poisson distribution", "The data is likely not normally distributed"], ans: "D"},
+                {q: "For 15 samples of TCLP Pb (mg/L) if mean value is 4.2 and standard deviation is 1.8 then calculate 95% UCL (t=1.761).", options: ["5 mg/L", "10 mg/L", "1.5 mg/L", "3 mg/L"], ans: "A"},
+                {q: "In the QA/QC plan, the blank samples are mainly used to:", options: ["Identify contamination during sampling", "Determine method accuracy", "Estimate mean concentration", "Estimate upper confidence limits"], ans: "A"},
+                {q: "Which of the following is FALSE about waste rules?", options: ["ULBs implement local waste collection", "Inform the local body at least 3 working days in advance for organizing an event with more than 100 people", "Ministry of Environment, Forest and Climate Change (MoEF&CC) is responsible for overall management of waste management rules in India", "Sanitary waste goes in biodegradable bins"], ans: "D"},
+                {q: "A mixture is prepared by combining two wastes in equal proportions. Waste A has 600 mg/kg concentration and 20% moisture. Waste B has 1,200 mg/kg concentration and 40% moisture. Calculate the blended contaminant concentration on a dry-weight basis.", options: ["857 mg/kg", "900 mg/kg", "600 mg/kg", "1286 mg/kg"], ans: "D"}
+            ],
+            4: [
+                {q: "Which of the following is TRUE about the Central Monitoring Committee (CMC) under the Solid Waste Management (SWM) Rules 2016?", options: ["It is chaired by the Minister of Urban Development and reviews progress biannually", "It is constituted by Chairmanship of Secretary, MoEF&CC and comprises members from CPCB, SPCBs, and Ministry of Agriculture", "It is renewed every 5 years and is responsible for setting tariffs for waste-to-energy plants", "It is constituted under the Ministry of Urban Development and meets annually"], ans: "B"},
+                {q: "The Ministry of Power's role in SWM includes:", options: ["Land allocation for sanitary landfills", "Tariff setting for Waste-to-Energy plants", "Management of compost quality", "Framing state solid waste policies"], ans: "B"},
+                {q: "Which of the following is FALSE about SWM in hilly areas?", options: ["Landfills should not be built on hills; instead, waste should be disposed of in a landfill on flat land within 25 km down the hill", "Step-garden systems are recommended to optimize hill space for waste processing", "Transfer stations are prohibited to avoid unnecessary costs and minimize environmental impact", "Tourists can be charged an entry fee to fund SWM services"], ans: "C"},
+                {q: "Which of the following is a core objective of the Swachh Bharat Mission (Urban)?", options: ["Achieving 100% waste-to-energy conversion in all cities by 2025", "Eliminating open defecation through toilet construction and behavioral change", "Mandating private sector investment in all municipal solid waste management projects", "Reducing carbon emissions from urban transport by 30%"], ans: "B"},
+                {q: "Under SWM rules 2016, non-recyclable waste with a calorific value above 1500 Kcal/kg must be:", options: ["Sent to sanitary landfill", "Used as construction material", "Dumped in inert landfills", "Used for RDF or energy recovery"], ans: "D"},
+                {q: "Which is not one of the core infrastructure elements under the Smart Cities Mission?", options: ["Robust IT connectivity", "Universal digital banking access", "Assured electricity supply", "Efficient urban mobility"], ans: "B"},
+                {q: "Tilt-frame trucks are primarily used for:", options: ["Rear loading of MSW", "Vacuuming of leachate", "Hauling open-top roll-off boxes", "Compacting waste on-site"], ans: "C"},
+                {q: "Which of the following waste collection systems is most appropriate for construction and demolition debris?", options: ["Stationary container systems", "Pneumatic pipe transport", "Manual curbside collection", "Hauled container systems"], ans: "D"},
+                {q: "Which of the following is TRUE about medical waste storage?", options: ["It must be incinerated onsite by hospitals before transportation", "Sharps containers are labeled with biohazard symbols and stored separately", "ULBs collect medical waste weekly to minimize infection risks", "Informal sector workers are trained to handle medical waste under SBM"], ans: "B"},
+                {q: "What is the purpose of buffer zones in SWM facilities?", options: ["To separate recyclable and non-recyclable waste", "To minimize environmental impact on surrounding areas", "To store waste temporarily before processing", "To house informal waste workers"], ans: "B"}
+            ],
+            5: [
+                {q: "A transfer station receives 15 truckloads per week from a residential area of 1800 homes (avg. 4 people/home). Each truck carries 18 m³ of waste, and the average density is 210 kg/m³. Calculate the per capita waste generation rate in kg/day.", options: ["1.52", "0.58", "0.85", "1.13"], ans: "D"},
+                {q: "What is the primary purpose of performing a materials mass balance in solid waste management?", options: ["To reduce collection costs", "To track generation, transformation, and movement of waste", "To optimize landfill design costs", "To estimate calorific value of waste"], ans: "B"},
+                {q: "Which of the following is TRUE about curbside pickup challenges?", options: ["Mechanical bins are always operated by residents to reduce costs", "Scavengers have no impact on waste collection efficiency", "Aesthetic issues include bag vs. bin use and placement time regulations", "Large storage containers prevent disposal of incorrect materials from residents"], ans: "C"},
+                {q: "Which method is commonly used in large communities to optimize vehicle routing?", options: ["GIS buffering", "Linear programming network models", "Manual looping", "Mass balance approach"], ans: "B"},
+                {q: "What is the main role of transfer stations in the solid waste system?", options: ["Final disposal of inert waste", "Storage of recyclables", "Reduce cost of long-distance waste hauling", "Short-term holding before sorting"], ans: "C"},
+                {q: "Which of the following is TRUE about waste compaction?", options: ["It reduces both volume and weight of waste equally", "It complicates recycling by making material recovery harder", "It has no impact on collection frequency or costs", "Home compactors typically achieve 90% volume reduction"], ans: "B"},
+                {q: "What is the main purpose of using Life Cycle Assessment (LCA) in solid waste management?", options: ["To calculate the cost of waste collection", "To measure how much waste is generated in homes", "To study the environmental impact of waste from its source to final disposal", "To check the weight of trucks at landfills"], ans: "C"},
+                {q: "Which of the following is TRUE about waste generation rates?", options: ["They are constant across all cities and populations", "They can be estimated via weight-volume analysis", "Backyard composting has no impact on recorded rates", "They exclude waste diverted for recycling before collection"], ans: "B"},
+                {q: "A city with 10,000 households generates 1.8 kg waste per person per day (3.5 people/household). Recycling diverts 40% of waste. With recyclables at 80 kg/m³ density and three vehicles with 12 m³ capacity each, determine weekly trips per vehicle.", options: ["21", "48", "62", "51"], ans: "A"},
+                {q: "A waste stream weighing 1000 kg has 30% paper (10 MJ/kg), 20% plastic (25 MJ/kg), 50% food (5 MJ/kg). If 70% paper and 40% plastic are recycled, calculate remaining energy content.", options: ["6020 MJ", "5800 MJ", "5420 MJ", "6400 MJ"], ans: "D"}
+            ],
+            6: [
+                {q: "A two-person crew takes 1.25 minutes per home. Each trip lasts 2.8 hours productive time. How many homes can be served in a single trip?", options: ["134", "64", "120", "72"], ans: "A"},
+                {q: "For the above case with 500 homes serviced over a 5-day workweek, how many total trips are needed in the entire week?", options: ["4", "20", "8", "10"], ans: "B"},
+                {q: "A municipal waste collection system has: t₁=0.4h, t₂=0.5h, s=0.15h, h=1.2h, W=12%, H=8h. Calculate timing for each round-trip (Thcs) in hours.", options: ["3.21", "1.05", "2.1", "2.25"], ans: "D"},
+                {q: "A neighborhood generates 2.5 kg/capita/day with 4 residents/home. Waste density 280 kg/m³. Truck compaction ratio 3.2, capacity 20 m³. Can it collect from 180 homes in one trip?", options: ["No, needs additional trip", "No, only sufficient for 150 homes", "Yes, can collect from 180 homes in single trip", "None of the above"], ans: "C"},
+                {q: "Which change reduces the number of trips per day?", options: ["Decreasing off-route time (W)", "Increasing haul speed (reducing h)", "Adding more transfer stations", "Extending workday length (H)"], ans: "C"},
+                {q: "In a network model for waste collection, what must be true for each node?", options: ["Flow in > Flow out", "Flow in = Flow out", "Flow in < Flow out", "No flow constraints"], ans: "B"},
+                {q: "Compost blend: wood chips (C:N 400:1, MC 20%) and grass clippings (C:N 20:1, MC 75%). Target C:N 30:1, MC 50-60%. Determine mixing ratio and moisture status.", options: ["1:37; Moisture too high", "1:37; Moisture too low", "1:25; Moisture too high", "1:25; Moisture sufficient"], ans: "A"},
+                {q: "Which statement is FALSE about aerobic composting?", options: ["The optimal C:N ratio is 20:1 to 25:1", "Moisture content should be maintained at 70-80%", "Temperature reaches 50-70°C during active decomposition", "Turning frequency affects oxygen availability"], ans: "B"},
+                {q: "Which statement is TRUE about anaerobic digestion?", options: ["Hydrolysis converts organics directly to methane", "Optimal pH is 8.5–9.0 for methane production", "Volatile solids (VS) degradation is typically 50-60%", "Methane yield is ~0.3 m³/kg VS degraded"], ans: "D"},
+                {q: "Which parameter differs most significantly between landfill gas and anaerobic digester biogas?", options: ["CH₄ content", "H₂S concentration", "CO₂ content", "NH₃ levels"], ans: "B"}
+            ],
+            7: [
+                {q: "For 1 ton MSW with 25% moisture, find water deficit after 5 days of composting if moisture loss is 20%. Process requires 227 kg water with safety factor 2.", options: ["27 kg", "54 kg", "100 kg", "75 kg"], ans: "B"},
+                {q: "Which statement is correct regarding aerobic composting?", options: ["Occurs in absence of oxygen and produces methane", "Relies on microbial degradation of organic matter in presence of oxygen", "Produces mainly methane and carbon dioxide", "Requires pH 6.5–7.5 and no oxygen"], ans: "B"},
+                {q: "A composting system processes 1250 kg/h organic waste using in-vessel method. If 3799 m³ air is required per ton, find total air required per day.", options: ["75,980 m³/day", "50,000 m³/day", "113,970 m³/day", "90,000 m³/day"], ans: "C"},
+                {q: "Which of the following is not an advantage of anaerobic digestion over landfilling?", options: ["Reduces volume of waste", "Produces renewable methane", "Has lower environmental impacts", "Eliminates all nutrient content of waste"], ans: "D"},
+                {q: "Find mass of biodegradable volatile solids (BVS) for 1 ton waste with 25% moisture, 93% VS of TS, and 60% BVS of VS.", options: ["750 kg", "418.5 kg", "697.5 kg", "450.5 kg"], ans: "B"},
+                {q: "For waste C60H95O38N, calculate moles of O2 required for aerobic decomposition using stoichiometric equation.", options: ["64 mol/mol", "74 mol/mol", "60 mol/mol", "54 mol/mol"], ans: "A"},
+                {q: "If 1000 kg waste requires 564.8 kg O2 for composting, find volume of air (ρ=1.2928 kg/m³, 23% O2) with safety factor 2.", options: ["3699 m³/ton", "3599 m³/ton", "3799 m³/ton", "3899 m³/ton"], ans: "C"},
+                {q: "Find dry compost from 10 tons/month chicken manure with 40% MC, 75% VS, 72% BVS.", options: ["1.76 tons/month", "2.76 tons/month", "2.96 tons/month", "3.24 tons/month"], ans: "B"},
+                {q: "For 100 kg MSW (20% moisture, 75% organic, formula C70H96O44N8), find mass of CH4 and CO2 generated during anaerobic digestion.", options: ["39.8 kg CH4 and 12.9 kg CO2", "42.8 kg CH4 and 15.9 kg CO2", "15.9 kg CH4 and 42.8 kg CO2", "18.1 kg CH4 and 55.8 kg CO2"], ans: "D"},
+                {q: "Which composting method requires 3–5 weeks for active composting followed by curing?", options: ["Windrow composting", "Aerated static pile composting", "In-vessel composting", "Backyard composting"], ans: "B"}
+            ],
+            8: [
+                {q: "Which of the following is not a primary objective of thermal treatment of solid waste?", options: ["Volume reduction", "Complete elimination of landfills", "Energy recovery", "Destruction of contaminants"], ans: "B"},
+                {q: "What are the 3Ts of effective combustion?", options: ["Time, Temperature, Turbulence", "Temperature, Turbulence, Treatment", "Time, Transfer, Temperature", "Time, Technology, Turbulence"], ans: "A"},
+                {q: "A waste-to-energy plant processes 12.5 tons/h of MSW. If the plant generates 550 kWh per ton of waste, calculate total power output per day.", options: ["105,000 kWh/day", "110,000 kWh/day", "150,000 kWh/day", "165,000 kWh/day"], ans: "D"},
+                {q: "Which waste-to-energy technology involves creating an ionized gas at very high temperatures?", options: ["Fluidized bed combustion", "Gasification", "Plasma arc", "Rotary kiln"], ans: "C"},
+                {q: "What is a significant drawback of using too much excess air?", options: ["Incomplete combustion", "Reduced combustion temperature", "Increased emission of CO", "Increased fuel consumption"], ans: "B"},
+                {q: "A landfill produces 1000 m³/day landfill gas with 55% methane. Calculate energy content if calorific value of methane is 35.8 MJ/m³.", options: ["10,000 MJ/day", "15,500 MJ/day", "19,690 MJ/day", "35,800 MJ/day"], ans: "C"},
+                {q: "What is refuse-derived fuel (RDF)?", options: ["Untreated municipal waste", "Homogenized, processed waste used as a fuel substitute", "Incinerator ash", "Landfill leachate"], ans: "B"},
+                {q: "If 5 hectares of landfill receive 500 mm rainfall annually, and 30% becomes leachate after accounting for evapotranspiration, calculate annual leachate volume.", options: ["5,000 m³", "10,000 m³", "7,500 m³", "15,000 m³"], ans: "C"},
+                {q: "What is the function of the secondary combustion chamber in a rotary kiln incinerator?", options: ["Burn solid waste", "Cool the ash", "Burn volatile gases", "Produce steam"], ans: "C"},
+                {q: "Which of the following is not a function of landfill liners?", options: ["Prevent leachate migration", "Increase waste decomposition", "Act as a low permeability barrier", "Protect groundwater"], ans: "B"}
+            ],
+            9: [
+                {q: "Which is the primary purpose of a leachate collection system in a landfill?", options: ["To accelerate waste decomposition", "To prevent rainfall from entering", "To collect and remove liquid that accumulates above the liner", "To reduce waste volume"], ans: "C"},
+                {q: "During the methane forming phase, landfill gas composition typically is:", options: ["CO2 > 70%", "CH4 ≈ 50–60% and CO2 ≈ 40–50%", "High O2 levels", "Mostly N2 and O2"], ans: "B"},
+                {q: "Physicochemical processes like adsorption and reverse osmosis are more effective for:", options: ["Old, stabilized leachate (>10 years)", "Young leachate", "Acid phase leachate", "None"], ans: "A"},
+                {q: "For a landfill with 560,000 yd³ adjusted volume and debris density 1480 pcy, if waste input rate is 570 tons/day, find landfill life in years.", options: ["1.8 years", "2 years", "3.5 years", "5 years"], ans: "B"},
+                {q: "In the acid forming phase, leachate generally has:", options: ["Low pH and low volatile fatty acids", "High pH and low VFAs", "Low pH and high volatile fatty acids", "High pH and high VFAs"], ans: "C"},
+                {q: "A landfill has footprint 1500 ft × 950 ft and depth 45 ft with 3:1 side slopes. Find total landfill volume using V=LWH–⅓H²(L+W)+⅓H³/S.", options: ["2,25,00,000 ft³", "5,66,00,000 ft³", "11,78,00,000 ft³", "6,25,00,000 ft³"], ans: "D"},
+                {q: "Which treatment is most effective for young (<5 years) landfill leachate?", options: ["Adsorption", "Coagulation–flocculation", "Biological treatment", "Membrane filtration"], ans: "C"},
+                {q: "Which biological leachate treatment method involves cycles of aeration and settling in a single tank?", options: ["Sequencing Batch Reactor (SBR)", "Aerated lagoon", "Activated sludge", "Trickling filter"], ans: "A"},
+                {q: "Active gas collection wells differ from passive ones because they:", options: ["Are drilled deeper", "Are connected to a vacuum extraction/blower system", "Are left open to the atmosphere", "Generate heat"], ans: "B"},
+                {q: "A bioreactor landfill is designed to:", options: ["Reduce leachate generation", "Store hazardous waste", "Stop methane generation", "Accelerate waste decomposition by recirculating leachate"], ans: "D"}
+            ],
+            10: [
+                {q: "Field capacity (θFC) of waste refers to:", options: ["Total porosity of the waste", "Maximum liquid that a mass of waste can hold before downward percolation", "Moisture at saturation", "Moisture content at wilting point"], ans: "B"},
+                {q: "HELP model in landfill management is used for:", options: ["Evaluating leachate generation and hydraulic performance", "Estimating landfill life", "Modeling methane oxidation", "Testing landfill liners"], ans: "A"},
+                {q: "In the construction bidding process, substantial completion means:", options: ["Financial approval", "All major components of the project are built", "Final closure", "Waste placement begins"], ans: "B"},
+                {q: "Construction and Demolition (C&D) waste in India primarily consists of:", options: ["Glass", "Plastics", "Concrete, bricks, and soil", "Textiles"], ans: "C"},
+                {q: "A landfill received 100,000 tons waste in 2025. L0=100 m³/ton, k=0.05 yr⁻¹. Find cumulative CH4 generated after 2035 using G(t)=L0M0(1-e⁻ᵏᵗ).", options: ["3.93 million m³", "5.0 million m³", "6.32 million m³", "10 million m³"], ans: "A"},
+                {q: "Which of the following is a potential reuse of processed C&D waste?", options: ["Compost production", "Potable water treatment", "Glass bottle manufacturing", "Road sub-base material"], ans: "D"},
+                {q: "Asbestos in demolition waste is a concern because:", options: ["It produces odors", "Fibers can cause severe respiratory diseases when inhaled", "It has high calorific value", "It blocks drains"], ans: "B"},
+                {q: "If field capacity is 0.25 m³ water per m³ waste and waste volume is 1 million m³, find water needed before leachate starts forming.", options: ["100,000 m³", "200,000 m³", "250,000 m³", "400,000 m³"], ans: "C"},
+                {q: "Which U.S. regulation governs asbestos handling during demolition?", options: ["Clean Water Act", "NESHAP (40 CFR 61 Subpart M)", "RCRA", "OSHA 1910"], ans: "B"},
+                {q: "A major challenge in C&D waste management in India is:", options: ["Lack of inert materials", "Excessive smart city planning", "Limited recycling facilities and poor source segregation", "Over-availability of disposal sites"], ans: "C"}
+            ],
+            11: [
+                {q: "Which state in India generates the highest amount of e-waste?", options: ["Tamil Nadu", "Karnataka", "Maharashtra", "West Bengal"], ans: "C"},
+                {q: "Which of the following is not a recognized category of e-waste?", options: ["Small household appliances", "Lighting equipment", "Construction debris", "IT and telecommunication equipment"], ans: "C"},
+                {q: "Which hazardous metal is commonly found in Cathode Ray Tubes (CRTs)?", options: ["Lead", "Cadmium", "Arsenic", "Nickel"], ans: "A"},
+                {q: "What are the leaching methods under hydrometallurgical processing?", options: ["Thiosulfate leaching", "Halide leaching", "Cyanide leaching", "All of the above"], ans: "D"},
+                {q: "The recovery of which material is a primary economic driver in e-waste recycling?", options: ["Glass", "Precious Metals", "Ferrous Metal", "Plastic"], ans: "B"},
+                {q: "The main danger of incinerating e-waste without treatment is:", options: ["Leaching into groundwater", "Production of greenhouse gases", "Formation of brominated dioxins and furans", "Thermal explosion"], ans: "C"},
+                {q: "From a 1000 ton C&D demolition project: 60% is concrete and bricks (recyclable), and 80% of that is reused as road sub-base. How much waste is reused?", options: ["480 tons", "600 tons", "700 tons", "800 tons"], ans: "A"},
+                {q: "What is a major hazard of landfilling e-waste?", options: ["Depletion of land resources", "Emission of CO2", "Leaching of heavy metals", "Fires"], ans: "C"},
+                {q: "Which of the following is not a component recovered from e-waste?", options: ["Glass", "Paper", "Ferrous Metals", "PCBs"], ans: "B"},
+                {q: "The flame retardant used in cables and circuit boards can produce which hazardous compound when burned?", options: ["Dioxins", "Cadmium nitrate", "Lead acetate", "PCBs"], ans: "A"}
+            ],
+            12: [
+                {q: "Who is the nodal authority for implementation of MSW Rules in India?", options: ["CPCB", "Urban Local Bodies (ULBs)", "State Pollution Control Board", "MoEFCC"], ans: "B"},
+                {q: "The Plastic Waste Management Rules, 2016 mandate which principle for producers?", options: ["Polluter Pays", "Zero Waste", "Extended Producer Responsibility (EPR)", "Precautionary Principle"], ans: "C"},
+                {q: "Under E-Waste Rules, producers must collect how much e-waste in the first year?", options: ["20%", "30%", "50%", "70%"], ans: "A"},
+                {q: "Which ministry notifies waste management rules in India?", options: ["Ministry of Urban Development", "Ministry of Health", "MoEFCC", "Ministry of Housing"], ans: "C"},
+                {q: "Which colour bin is used for human anatomical waste?", options: ["Red", "Yellow", "Blue", "Black"], ans: "B"},
+                {q: "The EPR (Extended Producer Responsibility) obligation in E-Waste Rules does not apply to:", options: ["Importers", "Producers", "Consumers", "Retailers"], ans: "C"},
+                {q: "A producer placed 10,000 units in market in FY 2021–22. E-Waste Rules mandate 20% collection next year. How many units must be collected in 2022–23?", options: ["1000 units", "2000 units", "1500 units", "5000 units"], ans: "B"},
+                {q: "Under Biomedical Waste Rules, max storage time before disposal is:", options: ["24 hours", "48 hours", "72 hours", "96 hours"], ans: "A"},
+                {q: "Out of 1000 households, 720 segregate waste. What's the compliance percentage?", options: ["68%", "72%", "80%", "76%"], ans: "B"},
+                {q: "Under which act are waste management rules notified?", options: ["Factories Act, 1948", "Environment Protection Act, 1986", "Public Health Act", "Solid Waste Act"], ans: "B"}
+            ]
+        };
+
+        const weekSelect = document.getElementById('weekSelect');
+        const questionsSection = document.getElementById('questionsSection');
+        const questionsContainer = document.getElementById('questionsContainer');
+
+        weekSelect.addEventListener('change', function() {
+            const selectedWeek = this.value;
+            if (selectedWeek) {
+                loadQuestions(selectedWeek);
+                questionsSection.style.display = 'block';
+            } else {
+                questionsSection.style.display = 'none';
+            }
+        });
+
+        function loadQuestions(week) {
+            const questions = quizData[week];
+            questionsContainer.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                questionCard.innerHTML = `
+                    <div class="question-text">Q${index + 1}. ${q.q}</div>
+                    <div class="options">
+                        ${q.options.map((opt, i) => `
+                            <div class="option">
+                                <input type="radio" id="q${index}_opt${i}" name="q${index}" value="${String.fromCharCode(65 + i)}">
+                                <label for="q${index}_opt${i}">${String.fromCharCode(65 + i)}) ${opt}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                questionsContainer.appendChild(questionCard);
+            });
+        }
+
+        function submitQuiz() {
+            const name = document.getElementById('studentName').value.trim();
+            const email = document.getElementById('studentEmail').value.trim();
+            const week = document.getElementById('weekSelect').value;
+
+            if (!name || !email || !week) {
+                alert('Please fill all required fields!');
+                return;
+            }
+
+            const questions = quizData[week];
+            let correctCount = 0;
+
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && selected.value === q.ans) {
+                    correctCount++;
+                }
+            });
+
+            const totalQuestions = questions.length;
+            const wrongCount = totalQuestions - correctCount;
+            const score = correctCount * 2;
+            const percentage = (correctCount / totalQuestions * 100).toFixed(1);
+
+            let grade = '';
+            let gradeClass = '';
+            if (percentage >= 90) {
+                grade = 'Excellent';
+                gradeClass = 'grade-excellent';
+            } else if (percentage >= 75) {
+                grade = 'Good';
+                gradeClass = 'grade-good';
+            } else if (percentage >= 60) {
+                grade = 'Average';
+                gradeClass = 'grade-average';
+            } else {
+                grade = 'Needs Improvement';
+                gradeClass = 'grade-poor';
+            }
+
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayWeek').textContent = `Week ${week}`;
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+            document.getElementById('correctAnswers').textContent = correctCount;
+            document.getElementById('wrongAnswers').textContent = wrongCount;
+            document.getElementById('displayScore').textContent = `${score}/20`;
+            document.getElementById('scorePercentage').textContent = `${percentage}%`;
+            document.getElementById('gradeDisplay').innerHTML = `<span class="grade-badge ${gradeClass}">${grade}</span>`;
+
+            document.getElementById('quizForm').classList.add('hidden');
+            document.getElementById('scorecard').classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form?')) {
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentEmail').value = '';
+                document.getElementById('weekSelect').value = '';
+                questionsContainer.innerHTML = '';
+                questionsSection.style.display = 'none';
+            }
+        }
+
+        function takeAnotherQuiz() {
+            document.getElementById('quizForm').classList.remove('hidden');
+            document.getElementById('scorecard').classList.remove('active');
+            resetForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
