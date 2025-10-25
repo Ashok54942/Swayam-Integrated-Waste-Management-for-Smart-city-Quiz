@@ -1,4 +1,4 @@
-Live Link: 
+Live Link: https://ashok54942.github.io/Swayam-Integrated-Waste-Management-for-Smart-city-Quiz/
 
 🌟 Overview
 This project provides a comprehensive quiz assessment platform for students enrolled in the NPTEL ISWM 2025 course. It features 120 multiple-choice questions spanning 12 weeks of course material, covering topics from waste characterization to regulatory frameworks.
